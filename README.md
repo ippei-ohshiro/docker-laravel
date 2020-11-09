@@ -7,11 +7,12 @@
 - Composer version 1.10.7
 - Docker version 19.03.13
 - docker-compose version 1.27.4
+- Laravel Framework 8.13.0
 
 
 ## 構築
 
-### コンテナの作成
+## appコンテナの作成
 docker-compose.yml があるディレクトリ
 ```
 $ docker-compose up -d --build
@@ -22,7 +23,7 @@ $ docker-compose up -d --build
 $ docker-compose ps
 ```
 
-## appコンテナ内ミドルウェアのバージョン確認
+### appコンテナ内ミドルウェアのバージョン確認
 コンテナに入る
 ```
 $ docker-compose exec [サービス名（コンテナ名）] bash
@@ -50,7 +51,7 @@ $ exit
 
 またはcontrol + d
 
-### WEBコンテナの作成(ウェブサーバー)
+## WEBコンテナの作成(ウェブサーバー)
 docker-compose down
 docker-compose up -d --build
 
@@ -67,7 +68,7 @@ $ echo "<?php phpinfo();" > phpinfo.php
 
 http://127.0.0.1:10080/phpinfo.phpにブラウザでアクセス
 
-##　開発中のエラー
+### 開発中のエラー
 Webコンテナがbuildできない
 ```
 $ docker logs { コンテナID }
@@ -75,3 +76,10 @@ $ docker logs { コンテナID }
 エラー内容
 /etc/nginx/conf.d/default.conf differs from the packaged version
 default.confがパッケージのものと異なる。
+
+## コンテナの作成
+```
+$ docker-compose exec app bash
+$ composer create-project --prefer-dist "laravel/laravel=8.*" .
+$ php artisan -V
+```

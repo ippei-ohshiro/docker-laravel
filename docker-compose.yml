@@ -1,10 +1,15 @@
 # インデントに注意
-# version  : Docker composeファイルバージョン
-# services : アプリケーションサーバー（サービス名は任意）
-# build    : ビルドコンテキスト（docker buildする際の現在の作業ディレクトリ）
-#            dockerfileが置かれているファイルを指定する
-# volumes  : ホスト側のディレクトリや名前つきボリュームをコンテナ側へマウントしたい時指定
-#           ./backendを/workへマウント
+# version   : Docker composeファイルバージョン
+# services  : アプリケーションサーバー（サービス名は任意）
+# build     : ビルドコンテキスト（docker buildする際の現在の作業ディレクトリ）
+#             dockerfileが置かれているファイルを指定する
+# volumes   : ホスト側のディレクトリや名前つきボリュームをコンテナ側へマウントしたい時指定
+#             ./backendを/workへマウント
+# image     : コンテナを起動させるイメージ
+# ports     : nginxへ外(ホスト側)からコンテナ内へアクセスさせるため公開用のポートを設定。ホスト側:コンテナ側
+#
+#
+
 
 version: "3.8"
 services:
@@ -12,3 +17,12 @@ services:
     build: ./infra/php
     volumes:
       - ./backend:/work
+  web:
+    # https://hub.docker.com/_/nginx
+    image: nginx:1.18-alpine
+    ports:
+      - 10080:80
+    volumes:
+      - ./backend:/work
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    working_dir: /work

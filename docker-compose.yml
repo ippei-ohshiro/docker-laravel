@@ -1,0 +1,14 @@
+# インデントに注意
+# version  : Docker composeファイルバージョン
+# services : アプリケーションサーバー（サービス名は任意）
+# build    : ビルドコンテキスト（docker buildする際の現在の作業ディレクトリ）
+#            dockerfileが置かれているファイルを指定する
+# volumes  : ホスト側のディレクトリや名前つきボリュームをコンテナ側へマウントしたい時指定
+#           ./backendを/workへマウント
+
+version: "3.8"
+services:
+  app:
+    build: ./infra/php
+    volumes:
+      - ./backend:/work

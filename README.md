@@ -12,7 +12,7 @@
 
 ## 構築
 
-## appコンテナの作成
+## appコンテナ
 docker-compose.yml があるディレクトリ
 ```
 $ docker-compose up -d --build
@@ -51,9 +51,11 @@ $ exit
 
 またはcontrol + d
 
-## WEBコンテナの作成(ウェブサーバー)
-docker-compose down
-docker-compose up -d --build
+## WEBコンテナ(ウェブサーバー)
+```
+$ docker-compose down
+$ docker-compose up -d --build
+```
 
 nginxのバージョン確認
 ```
@@ -77,9 +79,44 @@ $ docker logs { コンテナID }
 /etc/nginx/conf.d/default.conf differs from the packaged version
 default.confがパッケージのものと異なる。
 
-## コンテナの作成
+## Laravelコンテナ
 ```
 $ docker-compose exec app bash
 $ composer create-project --prefer-dist "laravel/laravel=8.*" .
 $ php artisan -V
+```
+
+## DBコンテナ（MySQL）
+```
+$ docker-compose down
+$ docker-compose up -d --build
+$ docker-compose ps
+$ docker-compose exec db mysql -V
+```
+
+backend/.env及びbackend/.env.exampleの修正
+```
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=laravel_local
+DB_USERNAME=phper
+DB_PASSWORD=secret
+```
+
+マイグレーション
+```
+$ docker-compose exec app bash
+$ php artisan migrate
+```
+
+仮データ作成
+```
+$ docker-compose exec app bash
+php artisan tinker
+>>> $user = new App\Models\User();
+>>> $user->name = 'phper';
+>>> $user->email = 'phper@example.com';
+>>> $user->password = Hash::make('secret');
+>>> $user->save();
 ```

@@ -15,7 +15,7 @@
 # WORKDIR命令
 #   ワークディレクトリを設定する
 
-# ベースイメージ　https://hub.docker.com/_/php
+# ベースイメージ https://hub.docker.com/_/php
 FROM php:7.4-fpm-buster
 SHELL ["/bin/bash", "-oeux", "pipefail", "-c"]
 
